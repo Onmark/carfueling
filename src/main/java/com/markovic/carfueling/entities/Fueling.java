@@ -10,7 +10,6 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 public class Fueling {
 

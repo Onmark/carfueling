@@ -6,7 +6,7 @@
 </head>
 <body>
 <h2>Fueling List</h2>
-<div th:unless="${#lists.isEmpty(fuelings)}">
+<div th:unless="${#lists.isEmpty(car.getFuelings)}">
     <table style="width:100%">
         <tr>
             <th>ID</th>
@@ -15,7 +15,7 @@
             <th>Price pet liter</th>
             <th>Datum</th>
         </tr>
-        <tr th:each="fueling : ${fuelings}">
+        <tr th:each="fueling : ${car.getFuelings}">
             <dt class="fuelingHeadline">
                     <td th:text="${fueling.id}">ID</td>
                     <td th:text="${fueling.stationName}">Station name</td>
@@ -27,12 +27,13 @@
         </tr>
     </table>
 </div>
-<div th:if="${#lists.isEmpty(fuelings)}">
+<div th:if="${#lists.isEmpty(car.getFuelings)}">
     <p>There are no fuelings in this list</p>
 </div>
 <hr/>
 <h3>Add a fueling</h3>
-<form method="POST">
+<form method="POST" th:object="${fueling}">
+    <input type="hidden" th:field="*{car}"/>
     <label for="stationName">Station Name</label>
     <input type="text" name="stationName" size="50"/>
     <br/>
@@ -45,7 +46,6 @@
     <label for="datum">Datum</label>
     <input type="text" name="datum" size="15"/>
     <br/>
-    <input type="hidden" th:field="${car}" id="car" name="car"/>
     <input type="submit"/>
 </form>
 </body>

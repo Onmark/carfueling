@@ -39,7 +39,6 @@ public class CarController {
     }
 
 
-    // zkus přidat jedno auto před startem
     @GetMapping("/{id}")
     public String read(@PathVariable Long id, Model model) {
         Optional<Car> car = carService.findById(id);
