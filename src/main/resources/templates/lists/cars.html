@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Car List</title>
-    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/style.css}"/>
 </head>
 <body>
 <h2>Car List</h2>
@@ -17,7 +17,7 @@
         </tr>
         <tr th:each="car : ${cars}">
             <dt class="carHeadline">
-                    <td th:text="${car.id}">ID</td>
+                <td><a class="carHeadline " th:href="@{'/' + ${car.id}}" th:text="${car.id}">ID</a></td>
                     <td th:text="${car.fullName}">Full name</td>
                     <td th:text="${car.fuel}">Fuel</td>
                     <td th:text="${car.productionYear}">ProductionYear</td>
