@@ -35,7 +35,7 @@ public class CarController {
         if (cars != null) {
             model.addAttribute("cars", cars);
         }
-        return "cars";
+        return "lists/cars";
     }
 
 
@@ -48,7 +48,7 @@ public class CarController {
             fueling.setCar(currentCar);
             model.addAttribute("fueling",fueling);
             model.addAttribute("car",currentCar);
-            return "fuelings";
+            return "lists/fuelings";
         } else {
             return "redirect:/";
         }

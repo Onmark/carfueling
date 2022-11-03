@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Fueling {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     @NonNull
     private String stationName;
