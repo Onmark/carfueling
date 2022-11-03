@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Fueling List</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<h2>Fueling List</h2>
+<div th:unless="${#lists.isEmpty(fuelings)}">
+    <table style="width:100%">
+        <tr>
+            <th>ID</th>
+            <th>Station name</th>
+            <th>Liters</th>
+            <th>Price pet liter</th>
+            <th>Datum</th>
+        </tr>
+        <tr th:each="fueling : ${fuelings}">
+            <dt class="fuelingHeadline">
+                    <td th:text="${fueling.id}">ID</td>
+                    <td th:text="${fueling.stationName}">Station name</td>
+                    <td th:text="${fueling.liters}">Liters</td>
+                    <td th:text="${fueling.pricePerLiter}">Price per liter</td>
+                    <td th:text="${fueling.datum}">Datum</td>
+
+            </dt>
+        </tr>
+    </table>
+</div>
+<div th:if="${#lists.isEmpty(fuelings)}">
+    <p>There are no fuelings in this list</p>
+</div>
+<hr/>
+<h3>Add a fueling</h3>
+<form method="POST">
+    <label for="stationName">Station Name</label>
+    <input type="text" name="stationName" size="50"/>
+    <br/>
+    <label for="liters">Liters</label>
+    <input type="text" name="liters" size="50"/>
+    <br/>
+    <label for="pricePerLiter">Price per liter</label>
+    <input type="text" name="pricePerLiter" size="15"/>
+    <br/>
+    <label for="datum">Datum</label>
+    <input type="text" name="datum" size="15"/>
+    <br/>
+    <input type="hidden" th:field="${car}" id="car" name="car"/>
+    <input type="submit"/>
+</form>
+</body>
+</html>

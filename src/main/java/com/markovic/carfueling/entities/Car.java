@@ -3,6 +3,8 @@ package com.markovic.carfueling.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -24,5 +26,12 @@ public class Car {
     private String productionYear;
     @NonNull
     private String owner;
+
+    @OneToMany(mappedBy = "car")
+    private List<Fueling> fuelings = new ArrayList<>();
+
+    public void addFueling(Fueling fueling) {
+        fuelings.add(fueling);
+    }
 
 }
