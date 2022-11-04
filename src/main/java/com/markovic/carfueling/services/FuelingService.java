@@ -16,4 +16,9 @@ public class FuelingService {
     public Fueling save(Fueling fueling) {
         return fuelingRepository.save(fueling);
     }
+
+    public void delete(Fueling fueling) {
+        fuelingRepository.delete(fueling);
+    }
+
 }

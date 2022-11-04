@@ -1,6 +1,7 @@
 package com.markovic.carfueling.services;
 
 import com.markovic.carfueling.entities.Car;
+import com.markovic.carfueling.entities.Fueling;
 import com.markovic.carfueling.repositories.CarRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,4 +28,9 @@ public class CarService {
     public Car save(Car car) {
         return carRepository.save(car);
     }
+
+    public void delete(Car car) {
+        carRepository.delete(car);
+    }
+
 }

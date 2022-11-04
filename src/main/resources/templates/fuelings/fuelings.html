@@ -6,6 +6,9 @@
 </head>
 <body>
 <h2>Fueling List</h2>
+<small th:if="${success}" style="color:green;" th:text="|Your fueling for car: [${car.id} ${car.fullName}] was submitted!|">Your fueling was submitted!</small>
+<br />
+<a th:href="@{'/' + ${car.id} + '/fuelings/submit'}"><button type="button">Add Fueling</button></a>
 <div th:unless="${#lists.isEmpty(car.getFuelings)}">
     <table style="width:100%">
         <tr>
@@ -31,22 +34,5 @@
     <p>There are no fuelings in this list</p>
 </div>
 <hr/>
-<h3>Add a fueling</h3>
-<form method="POST" th:object="${fueling}">
-    <input type="hidden" th:field="*{car}"/>
-    <label for="stationName">Station Name</label>
-    <input type="text" name="stationName" size="50"/>
-    <br/>
-    <label for="liters">Liters</label>
-    <input type="text" name="liters" size="50"/>
-    <br/>
-    <label for="pricePerLiter">Price per liter</label>
-    <input type="text" name="pricePerLiter" size="15"/>
-    <br/>
-    <label for="datum">Datum</label>
-    <input type="text" name="datum" size="15"/>
-    <br/>
-    <input type="submit"/>
-</form>
 </body>
 </html>
