@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Car List</title>
+    <link rel="stylesheet" th:href="@{/styles/style.css}"/>
+</head>
+<body>
+<h2>Car List</h2>
+<small style="color:green;" th:if="${success}">Your car was submitted!</small>
+<small style="color:green;" th:if="${update}">Your car was updated!</small>
+<br/>
+<a th:href="@{'/submit'}">
+    <button type="button">Add Car</button>
+</a>
+<br/>
+<div th:unless="${#lists.isEmpty(cars)}">
+    <table style="width:100%">
+        <tr>
+            <th>Fueling per ID</th>
+            <th>Full Name</th>
+            <th>Fuel</th>
+            <th>Production Year</th>
+            <th>Owner</th>
+            <th>Update/Delete</th>
+        </tr>
+        <tr th:each="car : ${cars}">
+            <dt class="carHeadline">
+                <td><a class="carHeadline " th:href="@{'/' + ${car.id}}" th:text="|Fueling for car ${car.id}|">ID</a>
+                </td>
+                <td th:text="${car.fullName}">Full name</td>
+                <td th:text="${car.fuel}">Fuel</td>
+                <td th:text="${car.productionYear}">ProductionYear</td>
+                <td th:text="${car.owner}">Owner</td>
+                <td><a th:href="@{'/update/' + ${car.id}}">Update</a>
+                    <a th:href="@{'/delete/' + ${car.id}}">Delete</a></td>
+
+            </dt>
+        </tr>
+    </table>
+    <div th:unless="${#lists.isEmpty(moneySpent)}">
+        <small style="color:blue;">Money spent on fuel:</small>
+        <small style="color:blue;" th:each="money : ${moneySpent}" th:text="|${money[0]}=${money[1]} Kc  |">0</small>
+    </div>
+
+</div>
+<div th:if="${#lists.isEmpty(cars)}">
+    <p>There are no cars in this list</p>
+</div>
+<hr/>
+</body>
+</html>

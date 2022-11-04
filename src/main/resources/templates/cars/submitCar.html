@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Add a car</title>
+    <link rel="stylesheet" th:href="@{/styles/style.css}"/>
+    <a th:href="@{'/'}">
+        <button type="button">Back to Car list</button>
+    </a>
+</head>
+<body>
+<h2>Add a car</h2>
+<form method="POST">
+    <label for="fullName">Full Name</label>
+    <input name="fullName" size="50" th:value="${car != null} ? ${car.fullName}" type="text"/>
+    <small style="color:red;" th:errors="*{car.fullName}"></small>
+    <br/>
+    <label for="fuel">Fuel</label>
+    <select name="fuel">
+        <option th:text="${car != null} ? ${car.fuel}" th:value="${car != null} ? ${car.fuel}">---
+        </option>
+        <option th:text="Diesel" th:value="Diesel"></option>
+        <option th:text="Benzin" th:value="Benzin"></option>
+    </select>
+    <small style="color:red;" th:errors="*{car.fuel}"></small>
+    <br/>
+    <label for="productionYear">ProductionYear</label>
+    <select name="productionYear">
+        <option th:text="${car != null} ? ${car.productionYear}" th:value="${car != null} ? ${car.productionYear}">---
+        </option>
+        <option th:each="year : ${#numbers.sequence(#dates.year(#dates.createNow()),1900)}"
+                th:text="${year}" th:value="${year}">
+        </option>
+    </select>
+    <small style="color:red;" th:errors="*{car.productionYear}"></small>
+    <br/>
+    <label for="owner">Owner</label>
+    <input name="owner" size="15" th:value="${car != null} ? ${car.owner}" type="text"/>
+    <br/>
+    <input type="submit"/>
+    <small style="color:red;" th:errors="*{car.owner}"></small>
+</form>
+</body>
+</html>

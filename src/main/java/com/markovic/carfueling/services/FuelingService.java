@@ -4,6 +4,8 @@ import com.markovic.carfueling.entities.Fueling;
 import com.markovic.carfueling.repositories.FuelingRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class FuelingService {
 
@@ -16,4 +18,14 @@ public class FuelingService {
     public Fueling save(Fueling fueling) {
         return fuelingRepository.save(fueling);
     }
+
+    public void delete(Fueling fueling) {
+        fuelingRepository.delete(fueling);
+    }
+
+    public Optional<Fueling> findById(Long id) {
+        return fuelingRepository.findById(id);
+    }
+
+
 }

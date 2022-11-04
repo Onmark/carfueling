@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class CarfuelingApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CarfuelingApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CarfuelingApplication.class, args);
+    }
 
 }

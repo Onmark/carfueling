@@ -16,7 +16,7 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    public List<Car> findAll(){
+    public List<Car> findAll() {
         return carRepository.findAll();
     }
 
@@ -27,4 +27,13 @@ public class CarService {
     public Car save(Car car) {
         return carRepository.save(car);
     }
+
+    public void delete(Car car) {
+        carRepository.delete(car);
+    }
+
+    public String[][] fuelMoneySpent() {
+        return carRepository.fuelMoneySpent();
+    }
+
 }
