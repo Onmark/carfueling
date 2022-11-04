@@ -40,8 +40,5 @@ public class Car {
     @OneToMany(mappedBy = "car")
     private List<Fueling> fuelings = new ArrayList<>();
 
-    public void addFueling(Fueling fueling) {
-        fuelings.add(fueling);
-    }
 
 }

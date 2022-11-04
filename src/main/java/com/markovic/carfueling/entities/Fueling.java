@@ -2,9 +2,13 @@ package com.markovic.carfueling.entities;
 
 import lombok.*;
 import org.springframework.boot.actuate.endpoint.web.Link;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.util.Date;
 
 
 @Entity
@@ -15,24 +19,20 @@ import javax.validation.constraints.NotEmpty;
 public class Fueling {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
     
     @NonNull
     @NotEmpty(message="Please enter Station Name")
     private String stationName;
     
-    @NonNull
-    @NotEmpty(message="Please enter volume that was refueled (in chosen units)")
-    private String liters;
+    private int liters;
     
-    @NonNull
-    @NotEmpty(message="Please enter price of fuel per unit")
-    private String pricePerLiter;
+    private int pricePerLiter;
     
-    @NonNull
-    @NotEmpty(message="Please enter the date of refueling")
-    private String datum;
+    @NotNull(message = "Please enter Date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd") // This is for bind Date with @ModelAttribute
+    private LocalDate date;
 
     @ManyToOne
     @NonNull

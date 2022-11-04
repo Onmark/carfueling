@@ -7,13 +7,14 @@
 <body>
 <h2>Car List</h2>
 <small th:if="${success}" style="color:green;">Your car was submitted!</small>
+<small th:if="${update}" style="color:green;">Your car was updated!</small>
 <br />
 <a th:href="@{'/submit'}"><button type="button">Add Car</button></a>
 <br />
 <div th:unless="${#lists.isEmpty(cars)}">
     <table style="width:100%">
         <tr>
-            <th>ID</th>
+            <th>Fueling per ID</th>
             <th>Full Name</th>
             <th>Fuel</th>
             <th>Production Year</th>
@@ -22,7 +23,7 @@
         </tr>
         <tr th:each="car : ${cars}">
             <dt class="carHeadline">
-                <td><a class="carHeadline " th:href="@{'/' + ${car.id}}" th:text="${car.id}">ID</a></td>
+                <td><a class="carHeadline " th:href="@{'/' + ${car.id}}" th:text="|Fueling for car ${car.id}|">ID</a></td>
                     <td th:text="${car.fullName}">Full name</td>
                     <td th:text="${car.fuel}">Fuel</td>
                     <td th:text="${car.productionYear}">ProductionYear</td>
@@ -33,6 +34,11 @@
             </dt>
         </tr>
     </table>
+    <div th:unless="${#lists.isEmpty(moneySpent)}">
+        <small style="color:blue;">Money spent on fuel:</small>
+        <small th:each="money : ${moneySpent}" th:text="|${money[0]}=${money[1]} Kc  |" style="color:blue;">0</small>
+    </div>
+
 </div>
 <div th:if="${#lists.isEmpty(cars)}">
     <p>There are no cars in this list</p>

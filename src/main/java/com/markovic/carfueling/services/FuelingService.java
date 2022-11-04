@@ -1,8 +1,11 @@
 package com.markovic.carfueling.services;
 
+import com.markovic.carfueling.entities.Car;
 import com.markovic.carfueling.entities.Fueling;
 import com.markovic.carfueling.repositories.FuelingRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class FuelingService {
@@ -20,5 +23,10 @@ public class FuelingService {
     public void delete(Fueling fueling) {
         fuelingRepository.delete(fueling);
     }
+
+    public Optional<Fueling> findById(Long id) {
+        return fuelingRepository.findById(id);
+    }
+
 
 }

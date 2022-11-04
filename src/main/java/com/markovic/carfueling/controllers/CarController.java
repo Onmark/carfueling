@@ -12,6 +12,7 @@ import org.springframework.boot.actuate.endpoint.web.Link;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -41,8 +42,11 @@ public class CarController {
     public String cars(Model model) {
 
         List<Car> cars = carService.findAll();
+
         if (cars != null) {
+            String[][] moneySpent = carService.fuelMoneySpent();
             model.addAttribute("cars", cars);
+            model.addAttribute("moneySpent", moneySpent);
         }
         return "cars/cars";
     }
@@ -65,7 +69,6 @@ public class CarController {
             model.addAttribute("car",car);
             return "cars/submitCar";
         } else {
-            // save our link
             carService.save(car);
             logger.info("New car was saved successfully");
             redirectAttributes
@@ -82,6 +85,9 @@ public class CarController {
     public String deleteCar(@PathVariable Long id) {
         Optional<Car> car = carService.findById(id);
         Car currentCar = car.get();
+        for(Fueling fueling : currentCar.getFuelings()){
+            fuelingService.delete(fueling);
+        }
         carService.delete(currentCar);
         return "redirect:/";
     }
@@ -98,97 +104,20 @@ public class CarController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateCar(@Valid Car car, Model model) {
-        carService.save(car);
-        return "redirect:/";
-    }
-
-
-
-
-    /*
-        Fuelings per car id
-     */
-    @GetMapping("/{id}")
-    public String fuelings(@PathVariable Long id, Model model) {
-        Optional<Car> car = carService.findById(id);
-        if( car.isPresent() ) {
-            Car currentCar = car.get();
-            Fueling fueling = new Fueling();
-            fueling.setCar(currentCar);
-            model.addAttribute("fueling",fueling);
-            model.addAttribute("car",currentCar);
-            return "fuelings/fuelings";
+    public String updateCar(@Valid Car car, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        if( bindingResult.hasErrors() ) {
+            logger.info("Validation errors were found while updating a car.");
+            model.addAttribute("car",car);
+            return "cars/submitCar";
         } else {
+            carService.save(car);
+            logger.info("Car was updated successfully");
+            redirectAttributes
+                    .addAttribute("id",car.getId())
+                    .addFlashAttribute("update",true);
             return "redirect:/";
         }
     }
 
-    /*
-        Fueling submitting
-     */
-
-    @GetMapping("/{id}/fuelings/submit")
-    public String submitFuelingForm(@PathVariable Long id,Model model) {
-        Optional<Car> car = carService.findById(id);
-        if( car.isPresent() ) {
-            Car currentCar = car.get();
-        Fueling fueling = new Fueling();
-        fueling.setCar(currentCar);
-        model.addAttribute("fueling",fueling);
-        model.addAttribute("car",currentCar);
-        return "fuelings/submitFueling";
-    } else {
-        return "redirect:/";
-    }
-    }
-
-    @PostMapping("/{id}/fuelings/submit")
-    public String createFueling(@PathVariable Long id, @Valid Fueling fueling,BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if( bindingResult.hasErrors() ) {
-            logger.info("Validation errors were found while submitting a new car.");
-            model.addAttribute("fueling",fueling);
-            model.addAttribute("car",carService.findById(id).get());
-            return "fuelings/submitFueling";
-        } else {
-            // save our link
-            fuelingService.save(fueling);
-            logger.info("New fueling was saved successfully");
-            redirectAttributes
-                    .addAttribute("id",fueling.getId())
-                    .addAttribute("car",carService.findById(id).get())
-                    .addFlashAttribute("success",true);
-            return "redirect:/" + fueling.getCar().getId();
-        }
-    }
-
-    /*
-    Fueling deleting
-
-    @GetMapping("{id}/delete/{id}")
-    public String deleteFueling(@PathVariable Long id) {
-        Optional<Car> car = carService.findById(id);
-        Car currentCar = car.get();
-        carService.delete(currentCar);
-        return "redirect:/";
-    }
-
-    /*
-        Fueling updating
-
-    @GetMapping("{id}/update/{id}")
-    public String updateFuelingForm(@PathVariable Long id,Model model) {
-        Optional<Car> car = carService.findById(id);
-        Car currentCar = car.get();
-        model.addAttribute("car",currentCar);
-        return "cars/submitCar";
-    }
-
-    @PostMapping("{id}/update/{id}")
-    public String updateFueling(@Valid Car car, Model model) {
-        carService.save(car);
-        return "redirect:/";
-    }
-    */
 }
 

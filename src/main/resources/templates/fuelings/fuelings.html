@@ -3,10 +3,12 @@
 <head>
     <title>Fueling List</title>
     <link rel="stylesheet" th:href="@{/styles/style.css}"/>
+    <a th:href="@{'/'}"><button type="button">Back to Car list</button></a>
 </head>
 <body>
 <h2>Fueling List</h2>
 <small th:if="${success}" style="color:green;" th:text="|Your fueling for car: [${car.id} ${car.fullName}] was submitted!|">Your fueling was submitted!</small>
+<small th:if="${update}" style="color:green;" th:text="|Your fueling for car: [${car.id} ${car.fullName}] was updated!|">Your fueling was updated!</small>
 <br />
 <a th:href="@{'/' + ${car.id} + '/fuelings/submit'}"><button type="button">Add Fueling</button></a>
 <div th:unless="${#lists.isEmpty(car.getFuelings)}">
@@ -16,16 +18,18 @@
             <th>Station name</th>
             <th>Liters</th>
             <th>Price pet liter</th>
-            <th>Datum</th>
+            <th>Date</th>
+            <th>Update/Delete</th>
         </tr>
         <tr th:each="fueling : ${car.getFuelings}">
             <dt class="fuelingHeadline">
                     <td th:text="${fueling.id}">ID</td>
                     <td th:text="${fueling.stationName}">Station name</td>
-                    <td th:text="${fueling.liters}">Liters</td>
-                    <td th:text="${fueling.pricePerLiter}">Price per liter</td>
-                    <td th:text="${fueling.datum}">Datum</td>
-
+                    <td th:text="|${fueling.liters} L|">Liters</td>
+                    <td th:text="|${fueling.pricePerLiter} Kc/L|">Price per liter</td>
+                    <td th:text="${fueling.date}">Date</td>
+                <td><a th:href="@{${car.id} + '/update/' + ${fueling.id}}">Update</a>
+                    <a th:href="@{${car.id} + '/delete/' + ${fueling.id}}">Delete</a></td>
             </dt>
         </tr>
     </table>
