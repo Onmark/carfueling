@@ -6,11 +6,13 @@
 </head>
 <body>
 <h2>Car List</h2>
-<small th:if="${success}" style="color:green;">Your car was submitted!</small>
-<small th:if="${update}" style="color:green;">Your car was updated!</small>
-<br />
-<a th:href="@{'/submit'}"><button type="button">Add Car</button></a>
-<br />
+<small style="color:green;" th:if="${success}">Your car was submitted!</small>
+<small style="color:green;" th:if="${update}">Your car was updated!</small>
+<br/>
+<a th:href="@{'/submit'}">
+    <button type="button">Add Car</button>
+</a>
+<br/>
 <div th:unless="${#lists.isEmpty(cars)}">
     <table style="width:100%">
         <tr>
@@ -23,20 +25,21 @@
         </tr>
         <tr th:each="car : ${cars}">
             <dt class="carHeadline">
-                <td><a class="carHeadline " th:href="@{'/' + ${car.id}}" th:text="|Fueling for car ${car.id}|">ID</a></td>
-                    <td th:text="${car.fullName}">Full name</td>
-                    <td th:text="${car.fuel}">Fuel</td>
-                    <td th:text="${car.productionYear}">ProductionYear</td>
-                     <td th:text="${car.owner}">Owner</td>
-                   <td><a th:href="@{'/update/' + ${car.id}}">Update</a>
-                       <a th:href="@{'/delete/' + ${car.id}}">Delete</a></td>
+                <td><a class="carHeadline " th:href="@{'/' + ${car.id}}" th:text="|Fueling for car ${car.id}|">ID</a>
+                </td>
+                <td th:text="${car.fullName}">Full name</td>
+                <td th:text="${car.fuel}">Fuel</td>
+                <td th:text="${car.productionYear}">ProductionYear</td>
+                <td th:text="${car.owner}">Owner</td>
+                <td><a th:href="@{'/update/' + ${car.id}}">Update</a>
+                    <a th:href="@{'/delete/' + ${car.id}}">Delete</a></td>
 
             </dt>
         </tr>
     </table>
     <div th:unless="${#lists.isEmpty(moneySpent)}">
         <small style="color:blue;">Money spent on fuel:</small>
-        <small th:each="money : ${moneySpent}" th:text="|${money[0]}=${money[1]} Kc  |" style="color:blue;">0</small>
+        <small style="color:blue;" th:each="money : ${moneySpent}" th:text="|${money[0]}=${money[1]} Kc  |">0</small>
     </div>
 
 </div>

@@ -1,41 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <title>Add a fueling</title>
-  <link rel="stylesheet" th:href="@{/styles/style.css}"/>
-  <a th:href="@{'/'}"><button type="button">Back to Car list</button></a>
-  <a th:href="@{'/' + ${car.id}}"><button type="button">Back to Fueling list</button></a>
+    <title>Add a fueling</title>
+    <link rel="stylesheet" th:href="@{/styles/style.css}"/>
+    <a th:href="@{'/'}">
+        <button type="button">Back to Car list</button>
+    </a>
+    <a th:href="@{'/' + ${car.id}}">
+        <button type="button">Back to Fueling list</button>
+    </a>
 </head>
 <body>
 <h2>Add a fueling for:</h2>
 <tr th:object="${fueling}">
-  <td th:text="|ID:${car.id}|">Id</td>
-  <td th:text="${car.fullName}">Full name</td>
-<td th:text="${car.fuel}">Fuel</td>
-<td th:text="${car.productionYear}">ProductionYear</td>
-<td th:text="|Owner:${car.owner}|">Owner</td>
+    <td th:text="|ID:${car.id}|">Id</td>
+    <td th:text="${car.fullName}">Full name</td>
+    <td th:text="${car.fuel}">Fuel</td>
+    <td th:text="${car.productionYear}">ProductionYear</td>
+    <td th:text="|Owner:${car.owner}|">Owner</td>
 </tr>
 <br/>
 <br/>
 <form method="POST" th:object="${fueling}">
-  <input type="hidden" th:field="*{car}"/>
-  <label for="stationName">Station Name</label>
-  <input type="text" name="stationName" size="50" th:value="${fueling != null} ? ${fueling.stationName}"/>
-  <small th:errors="*{stationName}" style="color:red;"></small>
-  <br/>
-  <label for="liters">Liters</label>
-  <input type="text" name="liters" size="50" th:value="${fueling != null} ? ${fueling.liters}"/>
-  <small th:errors="*{liters}" style="color:red;"></small>
-  <br/>
-  <label for="pricePerLiter">Price per liter</label>
-  <input type="text" name="pricePerLiter" size="15" th:value="${fueling != null} ? ${fueling.pricePerLiter}"/>
-  <small th:errors="*{pricePerLiter}" style="color:red;"></small>
-  <br/>
-  <label for="date">Date (yyyy-MM-dd)</label>
-  <input type="text" name="date" size="15" th:value="${fueling != null} ? ${fueling.date}"/>
-  <small th:if="${#fields.hasErrors('date')}" th:text="|Please insert date in correct format|" style="color:red;"></small>
-  <br/>
-  <input type="submit"/>
+    <input th:field="*{car}" type="hidden"/>
+    <label for="stationName">Station Name</label>
+    <input name="stationName" size="50" th:value="${fueling != null} ? ${fueling.stationName}" type="text"/>
+    <small style="color:red;" th:errors="*{stationName}"></small>
+    <br/>
+    <label for="liters">Liters</label>
+    <input name="liters" size="50" th:value="${fueling != null} ? ${fueling.liters}" type="text"/>
+    <small style="color:red;" th:errors="*{liters}"></small>
+    <br/>
+    <label for="pricePerLiter">Price per liter</label>
+    <input name="pricePerLiter" size="15" th:value="${fueling != null} ? ${fueling.pricePerLiter}" type="text"/>
+    <small style="color:red;" th:errors="*{pricePerLiter}"></small>
+    <br/>
+    <label for="date">Date (yyyy-MM-dd)</label>
+    <input name="date" size="15" th:value="${fueling != null} ? ${fueling.date}" type="text"/>
+    <small style="color:red;" th:if="${#fields.hasErrors('date')}"
+           th:text="|Please insert date in correct format|"></small>
+    <br/>
+    <input type="submit"/>
 </form>
 </body>
 </html>

@@ -2,18 +2,17 @@ package com.markovic.carfueling.controllers;
 
 import com.markovic.carfueling.entities.Car;
 import com.markovic.carfueling.entities.Fueling;
-
 import com.markovic.carfueling.services.CarService;
 import com.markovic.carfueling.services.FuelingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.web.Link;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -30,15 +29,15 @@ public class CarController {
 
     @Autowired
     public CarController(
-            CarService carService,FuelingService fuelingService) {
+            CarService carService, FuelingService fuelingService) {
         this.carService = carService;
-        this.fuelingService=fuelingService;
+        this.fuelingService = fuelingService;
     }
 
     /*
         Listing cars
     */
-    @GetMapping(value="/")
+    @GetMapping(value = "/")
     public String cars(Model model) {
 
         List<Car> cars = carService.findAll();
@@ -57,23 +56,23 @@ public class CarController {
 
     @GetMapping("/submit")
     public String submitCarForm(Model model) {
-        model.addAttribute("car",new Car());
+        model.addAttribute("car", new Car());
         return "cars/submitCar";
     }
 
 
     @PostMapping("/submit")
     public String createCar(@Valid Car car, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if( bindingResult.hasErrors() ) {
+        if (bindingResult.hasErrors()) {
             logger.info("Validation errors were found while submitting a new car.");
-            model.addAttribute("car",car);
+            model.addAttribute("car", car);
             return "cars/submitCar";
         } else {
             carService.save(car);
             logger.info("New car was saved successfully");
             redirectAttributes
-                    .addAttribute("id",car.getId())
-                    .addFlashAttribute("success",true);
+                    .addAttribute("id", car.getId())
+                    .addFlashAttribute("success", true);
             return "redirect:/";
         }
     }
@@ -85,7 +84,7 @@ public class CarController {
     public String deleteCar(@PathVariable Long id) {
         Optional<Car> car = carService.findById(id);
         Car currentCar = car.get();
-        for(Fueling fueling : currentCar.getFuelings()){
+        for (Fueling fueling : currentCar.getFuelings()) {
             fuelingService.delete(fueling);
         }
         carService.delete(currentCar);
@@ -96,25 +95,25 @@ public class CarController {
         Car updating
      */
     @GetMapping("/update/{id}")
-    public String updateCarForm(@PathVariable Long id,Model model) {
+    public String updateCarForm(@PathVariable Long id, Model model) {
         Optional<Car> car = carService.findById(id);
         Car currentCar = car.get();
-        model.addAttribute("car",currentCar);
+        model.addAttribute("car", currentCar);
         return "cars/submitCar";
     }
 
     @PostMapping("/update/{id}")
     public String updateCar(@Valid Car car, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if( bindingResult.hasErrors() ) {
+        if (bindingResult.hasErrors()) {
             logger.info("Validation errors were found while updating a car.");
-            model.addAttribute("car",car);
+            model.addAttribute("car", car);
             return "cars/submitCar";
         } else {
             carService.save(car);
             logger.info("Car was updated successfully");
             redirectAttributes
-                    .addAttribute("id",car.getId())
-                    .addFlashAttribute("update",true);
+                    .addAttribute("id", car.getId())
+                    .addFlashAttribute("update", true);
             return "redirect:/";
         }
     }

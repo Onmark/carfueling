@@ -1,7 +1,6 @@
 package com.markovic.carfueling.services;
 
 import com.markovic.carfueling.entities.Car;
-import com.markovic.carfueling.entities.Fueling;
 import com.markovic.carfueling.repositories.CarRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    public List<Car> findAll(){
+    public List<Car> findAll() {
         return carRepository.findAll();
     }
 
@@ -33,6 +32,8 @@ public class CarService {
         carRepository.delete(car);
     }
 
-    public String[][] fuelMoneySpent(){  return carRepository.fuelMoneySpent(); }
+    public String[][] fuelMoneySpent() {
+        return carRepository.fuelMoneySpent();
+    }
 
 }

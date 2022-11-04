@@ -1,6 +1,5 @@
 package com.markovic.carfueling.services;
 
-import com.markovic.carfueling.entities.Car;
 import com.markovic.carfueling.entities.Fueling;
 import com.markovic.carfueling.repositories.FuelingRepository;
 import org.springframework.stereotype.Service;

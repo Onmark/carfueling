@@ -4,7 +4,6 @@ import com.markovic.carfueling.entities.Car;
 import com.markovic.carfueling.entities.Fueling;
 import com.markovic.carfueling.repositories.CarRepository;
 import com.markovic.carfueling.repositories.FuelingRepository;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -30,19 +29,19 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        List<Car> cars= new ArrayList<>();
-        cars.add(addCar("Hyundai I30","Diesel","2019","Ondrej"));
-        cars.add(addCar("Skoda Octavia III","Benzin","2018","David"));
-        cars.add(addCar("Kia CEED","Benzin","2022","Kuba"));
+        List<Car> cars = new ArrayList<>();
+        cars.add(addCar("Hyundai I30", "Diesel", "2019", "Ondrej"));
+        cars.add(addCar("Skoda Octavia III", "Benzin", "2018", "David"));
+        cars.add(addCar("Kia CEED", "Benzin", "2022", "Kuba"));
 
-        for(Car car : cars) {
-            for (int i = 0; i < 3; i++){
+        for (Car car : cars) {
+            for (int i = 0; i < 3; i++) {
                 addFueling("Benzina" + String.valueOf((int) (Math.random() * 20) + 1),
                         (int) (Math.random() * 40) + 5,
                         (int) (Math.random() * 10) + 35,
-                        LocalDate.parse("2022-0"+String.valueOf((int) (Math.random() * 9) + 1 )+"-"+String.valueOf((int) (Math.random() * 20) + 10), DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)),
+                        LocalDate.parse("2022-0" + String.valueOf((int) (Math.random() * 9) + 1) + "-" + String.valueOf((int) (Math.random() * 20) + 10), DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)),
                         car);
-        }
+            }
         }
 
     }
