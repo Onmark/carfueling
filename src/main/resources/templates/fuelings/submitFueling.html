@@ -25,20 +25,19 @@
     <input th:field="*{car}" type="hidden"/>
     <label for="stationName">Station Name</label>
     <input name="stationName" size="50" th:value="${fueling != null} ? ${fueling.stationName}" type="text"/>
-    <small style="color:red;" th:errors="*{stationName}"></small>
+    <small style="color:red;" th:errors="*{stationName}"/>
     <br/>
     <label for="liters">Liters</label>
     <input name="liters" size="50" th:value="${fueling != null} ? ${fueling.liters}" type="text"/>
-    <small style="color:red;" th:errors="*{liters}"></small>
+    <small style="color:red;" th:errors="*{liters}"/>
     <br/>
     <label for="pricePerLiter">Price per liter</label>
     <input name="pricePerLiter" size="15" th:value="${fueling != null} ? ${fueling.pricePerLiter}" type="text"/>
-    <small style="color:red;" th:errors="*{pricePerLiter}"></small>
+    <small style="color:red;" th:errors="*{pricePerLiter}"/>
     <br/>
     <label for="date">Date (yyyy-MM-dd)</label>
     <input name="date" size="15" th:value="${fueling != null} ? ${fueling.date}" type="text"/>
-    <small style="color:red;" th:if="${#fields.hasErrors('date')}"
-           th:text="|Please insert date in correct format|"></small>
+    <small style="color:red;" th:if="${#fields.hasErrors('date')}" th:text="|Please insert date in correct format|"/>
     <br/>
     <input type="submit"/>
 </form>

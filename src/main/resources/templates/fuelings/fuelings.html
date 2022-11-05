@@ -9,10 +9,8 @@
 </head>
 <body>
 <h2>Fueling List</h2>
-<small style="color:green;" th:if="${success}"
-       th:text="|Your fueling for car: [${car.id} ${car.fullName}] was submitted!|">Your fueling was submitted!</small>
-<small style="color:green;" th:if="${update}"
-       th:text="|Your fueling for car: [${car.id} ${car.fullName}] was updated!|">Your fueling was updated!</small>
+<small style="color:green;" th:if="${success}" th:text="|Your fueling for car: [${car.id} ${car.fullName}] was submitted!|">Your fueling was submitted!</small>
+<small style="color:green;" th:if="${update}" th:text="|Your fueling for car: [${car.id} ${car.fullName}] was updated!|">Your fueling was updated!</small>
 <br/>
 <a th:href="@{'/' + ${car.id} + '/fuelings/submit'}">
     <button type="button">Add Fueling</button>
@@ -28,15 +26,17 @@
             <th>Update/Delete</th>
         </tr>
         <tr th:each="fueling : ${car.getFuelings}">
-            <dt class="fuelingHeadline">
                 <td th:text="${fueling.id}">ID</td>
                 <td th:text="${fueling.stationName}">Station name</td>
                 <td th:text="|${fueling.liters} L|">Liters</td>
                 <td th:text="|${fueling.pricePerLiter} Kc/L|">Price per liter</td>
                 <td th:text="${fueling.date}">Date</td>
-                <td><a th:href="@{${car.id} + '/update/' + ${fueling.id}}">Update</a>
-                    <a th:href="@{${car.id} + '/delete/' + ${fueling.id}}">Delete</a></td>
-            </dt>
+                <td>
+                    <center>
+                        <a th:href="@{${car.id} + '/update/' + ${fueling.id}}">Update</a>
+                        <a th:href="@{${car.id} + '/delete/' + ${fueling.id}}">Delete</a>
+                    </center>
+                </td>
         </tr>
     </table>
 </div>

@@ -2,21 +2,6 @@ body {
     background-color: #cccccc;
     font-family: arial,helvetica,sans-serif;
 }
-.class-for-car{
-}
-
-.class-for-fueling{
-}
-
-.carHeadline {
-    font-size: 12pt;
-    font-weight: bold;
-}
-
-.fuelingHeadline{
-    font-size: 12pt;
-    font-weight: bold;
-}
 
 table, th, td {
   border:1px solid black;
