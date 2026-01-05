@@ -1,122 +1,67 @@
 package com.markovic.carfueling.controllers;
 
 import com.markovic.carfueling.entities.Car;
-import com.markovic.carfueling.entities.Fueling;
 import com.markovic.carfueling.services.CarService;
-import com.markovic.carfueling.services.FuelingService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
-@Controller
+@RestController
+@RequestMapping("/api/cars")
 public class CarController {
 
-    private static final Logger logger = LoggerFactory.getLogger(CarController.class);
+    private final CarService carService;
 
-    private CarService carService;
-    private FuelingService fuelingService;
-
-    @Autowired
-    public CarController(
-            CarService carService, FuelingService fuelingService) {
+    public CarController(CarService carService) {
         this.carService = carService;
-        this.fuelingService = fuelingService;
     }
 
-    /*
-        Listing cars
-    */
-    @GetMapping(value = "/")
-    public String cars(Model model) {
-
-        List<Car> cars = carService.findAll();
-
-        if (cars != null) {
-            String[][] moneySpent = carService.fuelMoneySpent();
-            model.addAttribute("cars", cars);
-            model.addAttribute("moneySpent", moneySpent);
-        }
-        return "cars/cars";
+    // GET all cars
+    @GetMapping
+    public List<Car> getAllCars() {
+        return carService.findAll();
     }
 
-     /*
-        Car submitting
-     */
-
-    @GetMapping("/submit")
-    public String submitCarForm(Model model) {
-        model.addAttribute("car", new Car());
-        return "cars/submitCar";
+    // GET one car (with fuelings)
+    @GetMapping("/{id}")
+    public ResponseEntity<Car> getCar(@PathVariable Long id) {
+        return carService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-
-    @PostMapping("/submit")
-    public String createCar(@Valid Car car, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            logger.info("Validation errors were found while submitting a new car.");
-            model.addAttribute("car", car);
-            return "cars/submitCar";
-        } else {
-            carService.save(car);
-            logger.info("New car was saved successfully");
-            redirectAttributes
-                    .addAttribute("id", car.getId())
-                    .addFlashAttribute("success", true);
-            return "redirect:/";
-        }
+    // CREATE car
+    @PostMapping
+    public Car createCar(@RequestBody Car car) {
+        return carService.save(car);
     }
 
-    /*
-        Car deleting
-     */
-    @GetMapping("/delete/{id}")
-    public String deleteCar(@PathVariable Long id) {
-        Optional<Car> car = carService.findById(id);
-        Car currentCar = car.get();
-        for (Fueling fueling : currentCar.getFuelings()) {
-            fuelingService.delete(fueling);
-        }
-        carService.delete(currentCar);
-        return "redirect:/";
+    // UPDATE car
+    @PutMapping("/{id}")
+    public ResponseEntity<Car> updateCar(
+            @PathVariable Long id,
+            @RequestBody Car updatedCar
+    ) {
+        return carService.findById(id)
+                .map(car -> {
+                    car.setFullName(updatedCar.getFullName());
+                    car.setFuel(updatedCar.getFuel());
+                    car.setProductionYear(updatedCar.getProductionYear());
+                    car.setOwner(updatedCar.getOwner());
+                    return ResponseEntity.ok(carService.save(car));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    /*
-        Car updating
-     */
-    @GetMapping("/update/{id}")
-    public String updateCarForm(@PathVariable Long id, Model model) {
-        Optional<Car> car = carService.findById(id);
-        Car currentCar = car.get();
-        model.addAttribute("car", currentCar);
-        return "cars/submitCar";
+    // DELETE car
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteCar(@PathVariable Long id) {
+        return carService.findById(id)
+                .map(car -> {
+                    carService.delete(car);
+                    return ResponseEntity.noContent().build();
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
-
-    @PostMapping("/update/{id}")
-    public String updateCar(@Valid Car car, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            logger.info("Validation errors were found while updating a car.");
-            model.addAttribute("car", car);
-            return "cars/submitCar";
-        } else {
-            carService.save(car);
-            logger.info("Car was updated successfully");
-            redirectAttributes
-                    .addAttribute("id", car.getId())
-                    .addFlashAttribute("update", true);
-            return "redirect:/";
-        }
-    }
-
 }
-

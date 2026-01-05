@@ -1,5 +1,6 @@
 package com.markovic.carfueling.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,7 +37,12 @@ public class Car {
     @NotEmpty(message = "Please enter owner")
     private String owner;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(
+            mappedBy = "car",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonManagedReference
     private List<Fueling> fuelings = new ArrayList<>();
 
 
